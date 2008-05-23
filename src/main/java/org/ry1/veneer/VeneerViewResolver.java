@@ -27,6 +27,9 @@ import org.springframework.web.context.support.WebApplicationObjectSupport;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
+import com.ryanberdeen.veneer.Configuration;
+import com.ryanberdeen.veneer.VeneerSupport;
+
 public class VeneerViewResolver extends WebApplicationObjectSupport implements ViewResolver, Ordered, InitializingBean {
 	private int order;
 	private Configuration configuration = new Configuration();
@@ -56,7 +59,7 @@ public class VeneerViewResolver extends WebApplicationObjectSupport implements V
 	}
 	
 	public View resolveViewName(String viewName, Locale locale) throws Exception {
-		VeneerView result = new VeneerView(configuration.getPrefix() + viewName + configuration.getSuffix(), configuration.getDefaultTemplateName());
+		VeneerView result = new VeneerView(viewName);
 		result.setApplicationContext(getApplicationContext());
 		result.setServletContext(getServletContext());
 		return result;

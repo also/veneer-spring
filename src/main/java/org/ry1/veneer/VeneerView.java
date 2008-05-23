@@ -27,15 +27,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.support.WebApplicationObjectSupport;
 import org.springframework.web.servlet.View;
 
+import com.ryanberdeen.veneer.RenderContext;
+import com.ryanberdeen.veneer.VeneerSupport;
+
 public class VeneerView extends WebApplicationObjectSupport implements View {
 	
-	private String uri;
+	private String name;
 	
-	private String defaultTemplateName;
-	
-	public VeneerView(String uri, String defaultTemplateName) {
-		this.uri = uri;
-		this.defaultTemplateName = defaultTemplateName;
+	public VeneerView(String name) {
+		this.name = name;
 	}
 	
 	public String getContentType() {
@@ -43,7 +43,7 @@ public class VeneerView extends WebApplicationObjectSupport implements View {
 	}
 	
 	public String getPath() {
-		return uri;
+		return name;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -55,9 +55,9 @@ public class VeneerView extends WebApplicationObjectSupport implements View {
 		}
 
 		RenderContext renderContext = VeneerSupport.getContext(getServletContext(), request);
-		renderContext.setTemplateName(defaultTemplateName);
+		renderContext.setTemplateName(renderContext.getConfiguration().getDefaultTemplateName());
 		
-		String value = renderContext.render(request, response, uri);
+		String value = renderContext.render(request, response, renderContext.resolveViewPath(name));
 		
 		if (value != null) {
 			response.getWriter().write(value);
