@@ -17,7 +17,7 @@
  * License along with Veneer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ry1.veneer;
+package com.ryanberdeen.veneer;
 
 import java.util.Map;
 
@@ -55,9 +55,7 @@ public class VeneerView extends WebApplicationObjectSupport implements View {
 		}
 
 		RenderContext renderContext = VeneerSupport.getContext(getServletContext(), request);
-		renderContext.setTemplateName(renderContext.getConfiguration().getDefaultTemplateName());
-		
-		String value = renderContext.render(request, response, renderContext.resolveViewPath(name));
+		String value = renderContext.renderMain(response, name);
 		
 		if (value != null) {
 			response.getWriter().write(value);
